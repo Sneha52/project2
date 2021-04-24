@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = '5b9ba340110c62fb0fb110086149221b07d0c0bd';
+        window.smartsupp||(function(d) {
+            var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+            s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+            c.type='text/javascript';c.charset='utf-8';c.async=true;
+            c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+        })(document);
+    </script>
+
+    <style>
+        body{
+            background-image: url("images/bg1.jpg");
+        }
+    </style>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/icofont.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/icofont.css">
+    <link rel="stylesheet" href="css/sidebar/style.default.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"content="IE-edge">
+    <title>YOYO</title>
+    <link rel="stylesheet" href="css1/style2.css">
+</head>
+<body onload="start(url)">
+<p style="color: black" id="result"></p>
+<div class="row" style="padding-top: 130px;font-size:15px">
+    <div class="col-md-4 col-1"></div>
+    <div class="col-md-4 col-10"  style="border-radius: 5px;
+    background-color: #f2f2f2;padding: 20px">
+        <form action="display2" method=GET>
+            <label>Linkedin Profile Url</label>
+            <input type="text" id="url" name="url" placeholder="LinkedIn Url">
+            <input type="submit" value="Fetch Analysis">
+        </form>
+    </div>
+    <div class="col-md-4 col-1"></div>
+</div>
+</body>
+<script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var url=urlParams.get('url')
+    function start(url)
+    {
+        CreateAnalaysis(url)
+    }
+    function CreateAnalaysis(url)
+    {
+        var apikey="chrexec_161718fa3421cdb915987bc3cc4c32cd";
+        var finalurl="https://api.humantic.ai/v1/user-profile/create?apikey="+apikey+"&userid="+url
+        fetch(finalurl)
+                .then(response => response.json())
+                .then(data => document.getElementById('result').innerHTML="STATUS = "+data['data']['status']+"<br>"+"ANALAYSIS STATUS = "+data['data']['analysis_status']+"<br>"+"Message = "+data['data']['message']+"<br>"); //analysis_status
+
+    }
+</script>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        div{
+            padding: 20px;
+            border-radius:5%;
+            background-color: #f2f2f2;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOYO</title>
+    <link rel="stylesheet" href="css1/style2.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/icofont.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/icofont.css">
+    <link rel="stylesheet" href="css/sidebar/style.default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body onload="start(url)">
+<p id="result"></p>
+</body>
+
+<script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var url=urlParams.get('url')
+    function start(url)
+    {
+        GETAnalaysis(url)
+    }
+    function GETAnalaysis(url)
+    {
+        var apikey="chrexec_161718fa3421cdb915987bc3cc4c32cd";
+        var finalurl="https://api.humantic.ai/v1/user-profile/?apikey="+apikey+"&userid="+url
+
+
+        fetch(finalurl)
+                .then(response => response.json())
+                //.then(data =>document.getElementById('result').innerHTML=""+data['results']['work_history'][i]['title']+"");
+
+                // .then(data =>document.getElementById('result').innerHTML="First Name = "+data['results']['first_name']+" "+data['results']['last_name']+"<br>"+"<br> Location = "+data['results']['location']+"<br>"+"<br> TimeZone = "+data['results']['timezone']+"<br>"+"<br> Profile Picture  = <br> <img src='"+data['results']['user_profile_image']+"'><br>"+"<br> School = "+data['results']['education'][0]['school']+"<br>"+"<br> Degree = "+data['results']['education'][0]['degree']+"<br>")
+                .then(data =>
+                {
+                    console.log(data.results.education[0]['school'])
+                    document.getElementById('result').innerHTML=" <div class='row' style='background-color: white;margin-bottom: -50px;'><div class='col-md-4 col-12' style='background-color: white'><img id='i1' src='"+data['results']['user_profile_image']+"'>"+"</div>"+"<div class='col-md-8 col-12' style='background-color: white'> <span id='s1'>"+data['results']['first_name']+" " +data['results']['last_name']+"</span>"+"<br><span id='s2'>"+data['results']['location']+"</span>"+"<br><br><p id='p1'><i>I know you've heard it a thousand times before. But it's true - hard work pays off. If you want to be good, you have to practice, practice, practice. If you don't love something then don't do it.<b>- Ray Bradbury</b></i></p></div></div>"+
+                            "<div class='row' style='background-color: white;'><div class='col-md-4 col-12' style='background-color: white'><p id='h1'>QUICK<br/>INTRO</p></div> <div class='col-md-8' style='background-color: white '><span id='s3'>"+data['results']['persona']['hiring']['communication_advice']['description'][0]+" "+data['results']['persona']['hiring']['communication_advice']['description'][1]+" "+data['results']['persona']['hiring']['communication_advice']['what_to_avoid'][0]+". "+data['results']['persona']['hiring']['communication_advice']['what_to_avoid'][1]+". "+data['results']['persona']['hiring']['communication_advice']['what_to_say'][0]+". "+data['results']['persona']['hiring']['communication_advice']['what_to_say'][1]+". "+data['results']['persona']['hiring']['communication_advice']['what_to_say'][2]+". "+data['results']['persona']['sales']['communication_advice']['description'][0]+" "+data['results']['persona']['sales']['communication_advice']['description'][1]+"</span><a href = \"javascript:;\" onclick = \"this.href= urlParams.get('url')\"><img class=\"i2\" src=\"images/linkedIn_PNG38.png\"></a> </div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-1 col-1' style='background-color: white'></div> <div class='col-md-4 col-10' style='background-color: '> <h1 id='h2'>EDUCATION</h1><br>"+education(data)+"</div><div class='col-md-2 col-1' style='background-color: white'></div><div class='col-md-4 col-10' id='i5'><h1 id='h2'>WORK EXPERIENCE</h1><br>"+wkexperince(data)+"</div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-12' style='background-color: white'><h1 id='i4'>behavioural factors</h1> <div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><h1 style='text-align: center'>Stability Potential</h1><p id='s4'><b>LEVEL: </b>"+data['results']['persona']['hiring']['behavioural_factors']['stability_potential']['level']+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4' style='background-color: '><h1 style='text-align: center'>Learning Ability</h1><p id='s4'><b>LEVEL: </b>"+data['results']['persona']['hiring']['behavioural_factors']['learning_ability']['level']+"</p></div></div>" +
+                            "<div class='row' style='background-color: white' id='i3'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><h1 style='text-align: center'>Attitude and Outlook</h1><p id='s4'><b>LEVEL: </b>"+data['results']['persona']['hiring']['behavioural_factors']['attitude_and_outlook']['level']+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4'><h1 style='text-align: center'>General Behavior</h1><p id='s4'><b>LEVEL: </b>"+data['results']['persona']['hiring']['behavioural_factors']['general_behavior']['level']+"</p></div> </div>"+
+                            "<div class='row' style='background-color: white' id='i2'><div class='col-md-4' style='background-color: white'></div><div class='col-md-4'><h1 style='text-align: center'>Action Orientedness</h1><p id='s4'><b>LEVEL: </b>"+data['results']['persona']['hiring']['behavioural_factors']['action_orientedness']['level']+"</p></div></div> </div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-12' style='background-color: white'><h1 id='i4'>personality analysis</h1><div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['personality_analysis']['summary']['ocean']['description'][0]+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4' style='background-color: '><p id='s4'>"+data['results']['personality_analysis']['summary']['ocean']['description']['1']+"</p></div></div>"+
+                            "<div class='row' style='background-color: white' id='i3'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['personality_analysis']['summary']['ocean']['description'][2]+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['persona']['hiring']['communication_advice']['adjectives']['0']+"</p></div></div>"+
+                            "<div class='row' style='background-color: white' id='i3'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['persona']['hiring']['communication_advice']['adjectives'][1]+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['persona']['hiring']['communication_advice']['adjectives']['2']+"</p></div></div>"+
+                            "<div class='row' style='background-color: white' id='i3'><div class='col-md-1' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['adjectives'][1]+"</p></div><div class='col-md-2' style='background-color: white'></div><div class='col-md-4'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['adjectives']['2']+"</p></div> </div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-12' style='background-color: white'><h1 id='i4'>Do'S while having a conversation</h1><div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-10'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['what_to_say'][1]+"</p></div><div class='col-md-1' style='background-color: white'></div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-10'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['what_to_say'][2]+"</p></div><div class='col-md-1' style='background-color: white'></div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-12' style='background-color: white'><h1 id='i4'>Don'ts while having a conversation</h1><div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-10'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['what_to_avoid'][0]+"</p></div><div class='col-md-1' style='background-color: white'></div></div>"+
+                            "<div class='row' style='background-color: white'><div class='col-md-1' style='background-color: white'></div><div class='col-md-10'><p id='s4'>"+data['results']['persona']['sales']['communication_advice']['what_to_avoid'][1]+"</p></div><div class='col-md-1' style='background-color: white'></div></div>"
+
+                });
+        //then(data =>document.getElementById('result').innerHTML="School = "+data['results']['persona']['hiring']['communication_advice']['personalized_email']+"");
+    }
+
+
+    function wkexperince(data)
+    {
+        var finalhtml=""
+        data.results.work_history.forEach(item => {
+                    const temp_html="<ul><li><b>"+item['title']+"</b><br>"+item['organization']+" ("+item['start_date']+")</li></ul>"
+                    finalhtml=finalhtml+temp_html
+                }
+
+        );
+        return finalhtml
+    }
+    function education(data)
+    {
+        var finalhtml=""
+        data.results.education.forEach(item => {
+                    const temp_html="<ul><li>"+item['school']+" ("+item['start_date']+"-"+item['end_date']+")<br>"+item['degree']+"</li></ul>"
+                    finalhtml=finalhtml+temp_html
+                }
+
+        );
+        return finalhtml
+    }
+</script>
+
+</html>
